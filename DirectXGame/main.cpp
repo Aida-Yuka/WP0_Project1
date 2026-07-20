@@ -7,7 +7,7 @@ using namespace KamataEngine;
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 {
 	// エンジンの初期化
-	KamataEngine::Initialize(L"LE3D_01_アイダ_ユウカ_AL3");
+	KamataEngine::Initialize(L"LE3D_01_アイダ_ユウカ");
 
 	// DirectXCommonインスタンスの取得
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();

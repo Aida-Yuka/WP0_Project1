@@ -1,6 +1,7 @@
 #pragma once
 #include "MapChipField.h"
 #include "Player.h"
+#include "Fade.h"
 #include <vector>
 
 using namespace KamataEngine;
@@ -33,6 +34,8 @@ public:
 	// 3Dモデルデータ
 	KamataEngine::Model* model_ = nullptr;
 	KamataEngine::Model* modelBlock_ = nullptr;
+	KamataEngine::Model* modelPlayerTurn_ = nullptr;
+	KamataEngine::Model* modelEnemyTurn_ = nullptr;
 
 	// マップチップフィールド
 	MapChipField* mapChipField_ = nullptr;
@@ -40,11 +43,31 @@ public:
 	// 表示ブロックの生成
 	void GenerateBlocks();
 
+	// 終了フラグのgetter
+	bool IsFinished() const { return finished_; }
+
+	// 終了フラグ
+	bool finished_ = false;
+
+	//ターンモデルの表示
+	void isTurnDisplay();
+
+	// ターンモデルの表示時間
+	float turnDisplayTime_ = 60.0f;
+	
+	// ターンモデルが表示されているか
+	bool isTurnDisplay_ = true;
+
 private:
 	// ゲームのフェーズ
 	enum class Phase {
-		kPlayer,
-		kEnemy,
+		//kFadeIn,    // フェードイン
+		//kPlay,      // ゲームプレイ
+		//kDeath,     // デス演出
+		//kPauseMenu, // ポーズメニュー
+		//kFadeOut,   // フェードアウト
+		kPlayerTurn,//プレイヤーターン
+		kEnemyTurn, //エネミーターン
 	};
 
 	// ゲームの現在フェーズ
@@ -61,4 +84,7 @@ private:
 
 	// カメラ
 	KamataEngine::Camera camera_;
+
+	// フェード
+	Fade* fade_ = nullptr;
 };

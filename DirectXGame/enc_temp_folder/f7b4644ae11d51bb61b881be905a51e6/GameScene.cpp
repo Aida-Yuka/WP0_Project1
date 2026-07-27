@@ -21,6 +21,11 @@ void GameScene::GenerateBlocks() {
 	// キューブの生成
 	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
 		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
+			////模様の処理
+			//if ((i + j) % 2 == 0)
+			//{
+			//    continue;
+			//}
 
 			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) {
 				WorldTransform* worldTransform = new WorldTransform();

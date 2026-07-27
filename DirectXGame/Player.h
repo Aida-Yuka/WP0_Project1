@@ -1,4 +1,6 @@
 #pragma once
+
+#define NOMINMAX
 #include "KamataEngine.h"
 #include "MapChipField.h"
 
@@ -13,6 +15,7 @@ public:
 	/// デストラクタ
 	/// </summary>
 	~Player();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -20,10 +23,12 @@ public:
 	/// <param name="camera">カメラ</param>
 	/// <param name="position">位置</param>
 	void Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, const KamataEngine::Vector3& position);
+	
 	/// <summary>
 	/// 更新
 	/// </summary>
 	void Update();
+	
 	/// <summary>
 	/// 描画
 	/// </summary>

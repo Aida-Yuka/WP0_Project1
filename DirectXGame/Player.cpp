@@ -2,16 +2,18 @@
 #include "MapChipField.h"
 #include "cassert"
 #include <algorithm>
-#include <numbers>
+#include <Numbers>
 
 using namespace KamataEngine;
-// using namespace MathUtiltiy;
+//using namespace MathUtility;
 
 Player::~Player() {}
 
-void Player::Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, const KamataEngine::Vector3& position) {
+void Player::Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, const KamataEngine::Vector3& position)
+{
 	// NULLポインタチェック
 	assert(model);
+	assert(camera);
 
 	// 引数として受け取ったデータをメンバ変数に記録する
 	model_ = model;
@@ -27,4 +29,6 @@ void Player::Update() {
 	worldTransform_.TransferMatrix();
 }
 
-void Player::Draw() { model_->Draw(worldTransform_, *camera_); }
+void Player::Draw() {
+	model_->Draw(worldTransform_, *camera_);
+}

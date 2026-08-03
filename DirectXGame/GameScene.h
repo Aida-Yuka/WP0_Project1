@@ -82,6 +82,9 @@ private:
 	// ブロック用のワールドトランスフォーム
 	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_;
 
+	//Turnモデル用のワールドトランスフォーム
+	KamataEngine::WorldTransform worldTransformTurn_;
+
 	// カメラ
 	KamataEngine::Camera camera_;
 

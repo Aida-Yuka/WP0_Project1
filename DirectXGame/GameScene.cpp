@@ -2,6 +2,7 @@
 #include "MapChipField.h"
 #include "Player.h"
 #include "MyMath.h"
+#include <cassert>
 
 void GameScene::GenerateBlocks() {
 	// ＝＝＝ブロック配置の初期化＝＝＝//
@@ -66,6 +67,7 @@ void GameScene::Initialize() {
 	modelBlock_ = Model::CreateFromOBJ("block");
 	modelPlayerTurn_ = Model::CreateFromOBJ("playerTurn", true);
 	modelEnemyTurn_ = Model::CreateFromOBJ("enemyTurn", true);
+	assert(modelEnemyTurn_);
 
 	// マップチップフィールドの設定
 	mapChipField_ = new MapChipField;
@@ -89,22 +91,11 @@ void GameScene::Initialize() {
 
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
+	worldTransformTurn_.Initialize();
 
 	// 表示メニュー
-	worldTransform_.translation_;
-
-	// ブロックの更新
-	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
-		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-			if (!worldTransformBlock)
-				continue;
-
-			worldTransformBlock->matWorld_ = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
-
-			// 定数バッファに転送する
-			worldTransformBlock->TransferMatrix();
-		}
-	}
+	worldTransformTurn_.translation_ = playerPosition;
+	worldTransformTurn_.scale_ = {10.0f, 10.0f, 10.0f};
 }
 
 // 更新
@@ -122,6 +113,10 @@ void GameScene::Update()
 	switch (phase_) {
 	// プレイヤーフェーズ
 	case Phase::kPlayerTurn:
+
+		// 自キャラの更新
+		player_->Update();
+
 		break;
 	// エネミーフェイズ
 	case Phase::kEnemyTurn:
@@ -134,11 +129,24 @@ void GameScene::Update()
 	// フェーズの切り替え
 	ChangePhase();
 
-	// 自キャラの更新
-	player_->Update();
+	// ブロックの更新
+	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			if (!worldTransformBlock)
+				continue;
+
+			worldTransformBlock->matWorld_ = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
+
+			// 定数バッファに転送する
+			worldTransformBlock->TransferMatrix();
+		}
+	}
 
 	// ビュープロジェクション行列の転送
 	camera_.TransferMatrix();
+
+	worldTransformTurn_.TransferMatrix();
+	worldTransform_.TransferMatrix();
 }
 
 // フェーズの切り替え
@@ -161,7 +169,7 @@ void GameScene::ChangePhase()
 			//プレイヤーターンからエネミーターンに切り替え
 			phase_ = Phase::kEnemyTurn;
 		}
-
+		
 		break;
 	//エネミーフェイズ
 	case Phase::kEnemyTurn:
@@ -171,8 +179,10 @@ void GameScene::ChangePhase()
 		//{
 		// 演出何か入れる
 		// ↓今だけ
-		if (Input::GetInstance()->PushKey(DIK_2))
+		if (Input::GetInstance()->PushKey(DIK_1))
 		{
+			// ターンモデルを表示する
+			isTurnDisplay_ = true;
 			//エネミーターンからプレイヤーターンに切り替え
 			phase_ = Phase::kPlayerTurn;
 		}
@@ -207,11 +217,11 @@ void GameScene::Draw() {
 	 {
 		 switch (phase_) {
 		 case Phase::kPlayerTurn:
-			 modelPlayerTurn_->Draw(worldTransform_, camera_);
+			 modelPlayerTurn_->Draw(worldTransformTurn_, camera_);
 			 break;
 
 		 case Phase::kEnemyTurn:
-			 modelEnemyTurn_->Draw(worldTransform_, camera_);
+			 modelEnemyTurn_->Draw(worldTransformTurn_, camera_);
 			 break;
 		 }
 	 }

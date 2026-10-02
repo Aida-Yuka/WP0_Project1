@@ -76,6 +76,7 @@ void GameScene::Initialize() {
 
 	// 座標をマップチップ番号で指定
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(5, 18);
+	Vector2 mapPosition = {5.0f, 18.0f};
 
 	// カメラの初期化
 	camera_.Initialize();
@@ -84,7 +85,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 
 	// プレイヤーの初期化
-	player_->Initialize(model_, &camera_, playerPosition);
+	player_->Initialize(model_, &camera_, playerPosition, mapPosition);
 
 	// マップチップデータのセット
 	player_->SetMapChipField(mapChipField_);

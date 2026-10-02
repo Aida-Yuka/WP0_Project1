@@ -13,7 +13,8 @@ std::map<std::string, MapChipType> mapChipTable = {
 };
 }
 
-void MapChipField::ResetMapChipData() {
+void MapChipField::ResetMapChipData()
+{
 	// マップチップデータをリセット
 	mapChipData_.data.clear();
 	mapChipData_.data.resize(kNumBlockVirtical);
@@ -22,7 +23,8 @@ void MapChipField::ResetMapChipData() {
 	}
 }
 
-void MapChipField::LoadMapChipCsv(const std::string& filePath) {
+void MapChipField::LoadMapChipCsv(const std::string& filePath)
+{
 	// マップチップデータをリセット
 	ResetMapChipData();
 
